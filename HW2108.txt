@@ -1,0 +1,22 @@
+1.
+db.posts.updateMany(
+    { country: { $ne: 'Germany' } },
+    { $mul: { balance: 1.25 } }
+)
+
+2.
+db.posts.find({ tags: "music" })
+
+3.
+Оператор $skip используется в запросах  для пропуска определенного количества документов в результате запроса.
+Вход: Оператор $skip принимает один аргумент, который указывает количество документов, которое нужно пропустить.
+Выход: Результат запроса будет содержать документы, начиная со следующего документа после указанного количества пропускаемых документов.
+
+4.
+db.posts.aggregate([
+    { $lookup: { from: "users", localField: "author_id", foreignField: "_id", as: "author" } },
+    { $unwind: "$author" },
+    { $match: { "author.balance": { $lt: 0 } } },
+    { $project: { _id: 0, post_title: "$title", author_name: "$author.name" } }
+])
+
